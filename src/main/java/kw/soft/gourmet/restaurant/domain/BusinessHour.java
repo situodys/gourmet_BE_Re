@@ -5,15 +5,17 @@ import kw.soft.gourmet.restaurant.exception.Code;
 import kw.soft.gourmet.restaurant.exception.RestaurantException;
 
 public abstract class BusinessHour {
-    public static final LocalTime UNSET = LocalTime.of(0, 0);
+    private static final LocalTime UNSET = LocalTime.of(0, 0);
 
     protected final LocalTime start;
     protected final LocalTime end;
+    protected final Boolean isStartAtTomorrow;
 
-    protected BusinessHour(LocalTime start, LocalTime end) {
+    protected BusinessHour(LocalTime start, LocalTime end, boolean isStartAtTomorrow) {
         checkNull(start, end);
         this.start = start;
         this.end = end;
+        this.isStartAtTomorrow = isStartAtTomorrow;
     }
 
     private void checkNull(LocalTime start, LocalTime end) {
@@ -22,36 +24,39 @@ public abstract class BusinessHour {
         }
     }
 
-    public boolean isExist() {
-        return !(this.start.equals(UNSET) && this.end.equals(UNSET));
+    public boolean isUnset() {
+        return this.start.equals(UNSET) && this.end.equals(UNSET);
     }
 
     public boolean isIn(BusinessHour outer) {
-        if (outer.isEndTomorrow() == this.isEndTomorrow()) {
+        if (isStartAndEndSameDayWith(outer)) {
             return outer.isAfterOrEqualToStart(this.start) && outer.isBeforeOrEqualToEnd(this.end);
         }
-        if (this.isEndTomorrow() && !outer.isEndTomorrow()) {
-            return false;
+        if (isEndSameDayWith(outer)) {
+            return outer.isBeforeOrEqualToEnd(this.end);
         }
         return outer.isAfterOrEqualToStart(this.start);
     }
 
-    public boolean isWithinRange(LocalTime now) {
-        if (isEndTomorrow()) {
-            return isWithinRangeWhenEndTomorrow(now);
-        }
-        return isWithinRangeWhenEndToday(now);
+    private boolean isStartAndEndSameDayWith(BusinessHour outer) {
+        return isStartSameDayWith(outer) && isEndSameDayWith(outer);
     }
 
-    public abstract BusinessHour convertToYesterdayBusinessHour();
-
-    private boolean isEndTomorrow() {
-        return this.start.isAfter(this.end);
+    private boolean isStartSameDayWith(BusinessHour outer) {
+        return outer.isStartAtTomorrow() == this.isStartAtTomorrow();
     }
 
-    protected abstract boolean isWithinRangeWhenEndToday(LocalTime now);
+    private boolean isEndSameDayWith(BusinessHour outer) {
+        return outer.isEndAtTomorrow() == this.isEndAtTomorrow();
+    }
 
-    protected abstract boolean isWithinRangeWhenEndTomorrow(LocalTime now);
+    private boolean isEndAtTomorrow() {
+        return this.isStartAtTomorrow || this.start.isAfter(this.end);
+    }
+
+    private boolean isStartAtTomorrow() {
+        return this.isStartAtTomorrow;
+    }
 
     protected boolean isAfterOrEqualToStart(LocalTime time) {
         return !time.isBefore(this.start);
@@ -60,6 +65,19 @@ public abstract class BusinessHour {
     protected boolean isBeforeOrEqualToEnd(LocalTime time) {
         return !time.isAfter(this.end);
     }
+
+    public boolean isWithinBusinessHour(LocalTime now) {
+        if (isEndAtTomorrow() && !isStartAtTomorrow) {
+            return isWithinBusinessHourWhenEndTomorrow(now);
+        }
+        return isWithinBusinessHourWhenEndToday(now);
+    }
+
+    protected abstract boolean isWithinBusinessHourWhenEndToday(LocalTime now);
+
+    protected abstract boolean isWithinBusinessHourWhenEndTomorrow(LocalTime now);
+
+    public abstract BusinessHour convertToYesterdayBusinessHour();
 
     @Override
     public String toString() {
