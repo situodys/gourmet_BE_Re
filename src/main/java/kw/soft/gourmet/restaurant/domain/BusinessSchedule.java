@@ -26,6 +26,9 @@ public class BusinessSchedule {
         if (runTime.isUnset()) {
             throw new RestaurantException(Code.INVALID_RUNTIME);
         }
+        if (runTime.isStartAtTomorrow()) {
+            throw new RestaurantException(Code.INVALID_START_OF_RUNTIME);
+        }
     }
 
     private void checkBreakTimeIsInRunTime(BusinessHour runTime, BusinessHour breakTime) {

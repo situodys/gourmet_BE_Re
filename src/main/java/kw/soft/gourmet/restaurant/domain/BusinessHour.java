@@ -54,7 +54,7 @@ public abstract class BusinessHour {
         return this.isStartAtTomorrow || this.start.isAfter(this.end);
     }
 
-    private boolean isStartAtTomorrow() {
+    public boolean isStartAtTomorrow() {
         return this.isStartAtTomorrow;
     }
 

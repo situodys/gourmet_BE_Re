@@ -7,6 +7,7 @@ import kw.soft.gourmet.restaurant.exception.Code;
 import kw.soft.gourmet.restaurant.exception.RestaurantException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -21,6 +22,22 @@ class BusinessScheduleTest {
                 LocalTime.of(endHour, endMinute),
                 isStartAtTomorrow
         );
+    }
+
+    @Test
+    @DisplayName("영업 시간 시작이 익일인 경우 예외를 반환한다.")
+    public void throwExceptionWhenStartOfRunTimeIsTomorrow() {
+        //given
+        BusinessHour runTime = createTodayBusinessHour(1, 0, 2, 0, true);
+        BusinessHour breakTime = createTodayBusinessHour(1, 15, 1, 30, true);
+
+        //then
+        Assertions.assertThatThrownBy(() -> {
+                    new BusinessSchedule(DEFAULT_DAY, runTime, breakTime);
+                })
+                .isInstanceOf(RestaurantException.class)
+                .extracting("code").isEqualTo(Code.INVALID_START_OF_RUNTIME);
+
     }
 
     @ParameterizedTest
@@ -40,8 +57,10 @@ class BusinessScheduleTest {
         BusinessHour runTime = createTodayBusinessHour(13, 0, 14, 0, false);
 
         BusinessHour breakTimeWhoseEndIsBeforeRunTime = createTodayBusinessHour(11, 0, 12, 0, false);
-        BusinessHour breakTimeWhoseStartIsBeforeRunTimeAndEndIsInRunTime = createTodayBusinessHour(12, 0, 13, 30, false);
-        BusinessHour breakTimeWhoseStartIsInRunTimeAndEndIsAfterRunTime = createTodayBusinessHour(13, 30, 14, 30, false);
+        BusinessHour breakTimeWhoseStartIsBeforeRunTimeAndEndIsInRunTime = createTodayBusinessHour(12, 0, 13, 30,
+                false);
+        BusinessHour breakTimeWhoseStartIsInRunTimeAndEndIsAfterRunTime = createTodayBusinessHour(13, 30, 14, 30,
+                false);
         BusinessHour breakTimeAfterRunTime = createTodayBusinessHour(15, 0, 16, 30, false);
 
         return Stream.of(
@@ -57,9 +76,12 @@ class BusinessScheduleTest {
         BusinessHour runTime = createTodayBusinessHour(17, 0, 2, 0, false);
 
         BusinessHour breakTimeWhoseEndIsBeforeRunTime = createTodayBusinessHour(15, 0, 16, 0, false);
-        BusinessHour breakTimeWhoseStartIsBeforeRunTimeAndEndIsInRunTime = createTodayBusinessHour(15, 0, 17, 30, false);
-        BusinessHour breakTimeWhoseStartIsInRunTimeAndEndIsAfterRunTimeAndStartAtToday = createTodayBusinessHour(17, 30, 3, 0, false);
-        BusinessHour breakTimeWhoseStartIsInRunTimeAndEndIsAfterRunTimeAndStartAtTomorrow = createTodayBusinessHour(1, 30, 3, 0, false);
+        BusinessHour breakTimeWhoseStartIsBeforeRunTimeAndEndIsInRunTime = createTodayBusinessHour(15, 0, 17, 30,
+                false);
+        BusinessHour breakTimeWhoseStartIsInRunTimeAndEndIsAfterRunTimeAndStartAtToday = createTodayBusinessHour(17, 30,
+                3, 0, false);
+        BusinessHour breakTimeWhoseStartIsInRunTimeAndEndIsAfterRunTimeAndStartAtTomorrow = createTodayBusinessHour(1,
+                30, 3, 0, false);
         BusinessHour breakTimeAfterRunTime = createTodayBusinessHour(3, 0, 4, 0, true);
 
         return Stream.of(
