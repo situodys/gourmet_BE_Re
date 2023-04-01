@@ -37,7 +37,21 @@ class BusinessScheduleTest {
                 })
                 .isInstanceOf(RestaurantException.class)
                 .extracting("code").isEqualTo(Code.INVALID_START_OF_RUNTIME);
+    }
 
+    @Test
+    @DisplayName("영업 시간이 설정되지 않은 경우 예외를 반환한다.")
+    public void throwExceptionWhenRunTimeIsUnset() {
+        //given
+        BusinessHour runTime = createTodayBusinessHour(0, 0, 0, 0, true);
+        BusinessHour breakTime = createTodayBusinessHour(1, 15, 1, 30, true);
+
+        //then
+        Assertions.assertThatThrownBy(() -> {
+                    new BusinessSchedule(DEFAULT_DAY, runTime, breakTime);
+                })
+                .isInstanceOf(RestaurantException.class)
+                .extracting("code").isEqualTo(Code.INVALID_RUNTIME);
     }
 
     @ParameterizedTest
