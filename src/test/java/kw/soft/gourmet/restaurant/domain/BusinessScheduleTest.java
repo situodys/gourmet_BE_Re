@@ -225,4 +225,32 @@ class BusinessScheduleTest {
         );
     }
 
+    @ParameterizedTest
+    @MethodSource("provideTimeAndAnswerWhenBreakTimeIsUnset")
+    @DisplayName("휴게 시간이 없는 경우 주어진 시간에 영업 상태를 정상적으로 반환한다.")
+    public void calculateBusinessStatusWhenBreakTimeIsUnset(
+            LocalTime time, BusinessStatus answer) {
+        //given
+        BusinessHour runTime = createTodayBusinessHour(9, 0, 21, 0, false);
+        BusinessHour breakTime = createTodayBusinessHour(0, 0, 0, 0, false);
+        BusinessSchedule businessSchedule = new BusinessSchedule(DEFAULT_DAY, runTime, breakTime);
+
+        //when
+        BusinessStatus result = businessSchedule.calculateBusinessStatus(time);
+
+        //then
+        Assertions.assertThat(result).isEqualTo(answer);
+    }
+
+    private static Stream<Arguments> provideTimeAndAnswerWhenBreakTimeIsUnset() {
+        return Stream.of(
+                Arguments.of(LocalTime.of(9, 0), BusinessStatus.OPEN),
+                Arguments.of(LocalTime.of(12, 0), BusinessStatus.OPEN),
+                Arguments.of(LocalTime.of(21, 0), BusinessStatus.OPEN),
+
+                Arguments.of(LocalTime.of(0, 0), BusinessStatus.CLOSE),
+                Arguments.of(LocalTime.of(1, 0), BusinessStatus.CLOSE),
+                Arguments.of(LocalTime.of(23, 0), BusinessStatus.CLOSE)
+        );
+    }
 }

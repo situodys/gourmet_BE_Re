@@ -32,6 +32,9 @@ public class BusinessSchedule {
     }
 
     private void checkBreakTimeIsInRunTime(BusinessHour runTime, BusinessHour breakTime) {
+        if (breakTime.isUnset()) {
+            return;
+        }
         if (!breakTime.isIn(runTime)) {
             throw new RestaurantException(Code.INVALID_BUSINESS_SCHEDULE);
         }
@@ -52,6 +55,7 @@ public class BusinessSchedule {
     }
 
     private boolean isBreakTimeAt(LocalTime now) {
+
         return breakTime.isWithinBusinessHour(now);
     }
 
