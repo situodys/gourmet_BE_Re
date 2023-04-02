@@ -59,6 +59,17 @@ public class BusinessSchedule {
         return breakTime.isWithinBusinessHour(now);
     }
 
+    public boolean isEndBefore(BusinessSchedule tomorrowBusinessSchedule) {
+        if (!this.runTime.isEndAtTomorrow()) {
+            return true;
+        }
+        return !tomorrowBusinessSchedule.isStartAfter(this.runTime.getEnd());
+    }
+
+    public boolean isStartAfter(LocalTime time) {
+        return runTime.isAfterOrEqualToStart(time);
+    }
+
     public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
     }

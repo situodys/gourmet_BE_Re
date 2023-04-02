@@ -50,7 +50,7 @@ public abstract class BusinessHour {
         return outer.isEndAtTomorrow() == this.isEndAtTomorrow();
     }
 
-    private boolean isEndAtTomorrow() {
+    public boolean isEndAtTomorrow() {
         return this.isStartAtTomorrow || this.start.isAfter(this.end);
     }
 
@@ -58,7 +58,7 @@ public abstract class BusinessHour {
         return this.isStartAtTomorrow;
     }
 
-    protected boolean isAfterOrEqualToStart(LocalTime time) {
+    public boolean isAfterOrEqualToStart(LocalTime time) {
         return !time.isBefore(this.start);
     }
 
@@ -78,6 +78,10 @@ public abstract class BusinessHour {
     protected abstract boolean isWithinBusinessHourWhenEndTomorrow(LocalTime now);
 
     public abstract BusinessHour convertToYesterdayBusinessHour();
+
+    public LocalTime getEnd() {
+        return this.end;
+    }
 
     @Override
     public String toString() {
