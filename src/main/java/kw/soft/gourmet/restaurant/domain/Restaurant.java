@@ -6,4 +6,5 @@ public class Restaurant {
     private BusinessSchedules businessSchedules;
     private String imageUrl;
     private PhoneNumber phoneNumber;
+    private Address address;
 }
