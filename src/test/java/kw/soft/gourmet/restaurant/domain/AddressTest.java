@@ -2,8 +2,10 @@ package kw.soft.gourmet.restaurant.domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import kw.soft.gourmet.restaurant.exception.Code;
-import kw.soft.gourmet.restaurant.exception.RestaurantException;
+import kw.soft.gourmet.domain.restaurant.Address;
+import kw.soft.gourmet.domain.restaurant.GeoPoint;
+import kw.soft.gourmet.domain.restaurant.exception.Code;
+import kw.soft.gourmet.domain.restaurant.exception.RestaurantException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;

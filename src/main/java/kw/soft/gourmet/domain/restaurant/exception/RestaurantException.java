@@ -1,4 +1,4 @@
-package kw.soft.gourmet.restaurant.exception;
+package kw.soft.gourmet.domain.restaurant.exception;
 
 import kw.soft.gourmet.exception.BusinessLogicException;
 
