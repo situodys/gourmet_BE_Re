@@ -3,8 +3,11 @@ package kw.soft.gourmet.restaurant.domain;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.stream.Stream;
-import kw.soft.gourmet.restaurant.exception.Code;
-import kw.soft.gourmet.restaurant.exception.RestaurantException;
+import kw.soft.gourmet.domain.restaurant.BusinessHour;
+import kw.soft.gourmet.domain.restaurant.BusinessSchedule;
+import kw.soft.gourmet.domain.restaurant.BusinessStatus;
+import kw.soft.gourmet.domain.restaurant.exception.Code;
+import kw.soft.gourmet.domain.restaurant.exception.RestaurantException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +20,7 @@ class BusinessScheduleTest {
 
     private static BusinessHour createTodayBusinessHour(int startHour, int startMinute, int endHour, int endMinute,
                                                         boolean isStartAtTomorrow) {
-        return new TodayBusinessHour(
+        return new BusinessHour(
                 LocalTime.of(startHour, startMinute),
                 LocalTime.of(endHour, endMinute),
                 isStartAtTomorrow

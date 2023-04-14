@@ -7,8 +7,12 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
-import kw.soft.gourmet.restaurant.exception.Code;
-import kw.soft.gourmet.restaurant.exception.RestaurantException;
+import kw.soft.gourmet.domain.restaurant.BusinessHour;
+import kw.soft.gourmet.domain.restaurant.BusinessSchedule;
+import kw.soft.gourmet.domain.restaurant.BusinessSchedules;
+import kw.soft.gourmet.domain.restaurant.BusinessStatus;
+import kw.soft.gourmet.domain.restaurant.exception.Code;
+import kw.soft.gourmet.domain.restaurant.exception.RestaurantException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +23,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class BusinessSchedulesTest {
     private static final LocalTime DUMMY_START_TIME = LocalTime.of(9, 0);
     private static final LocalTime DUMMY_END_TIME = LocalTime.of(18, 0);
-    private static final BusinessHour DUMMY_BUSINESS_HOUR = new TodayBusinessHour(DUMMY_START_TIME, DUMMY_END_TIME, false);
+    private static final BusinessHour DUMMY_BUSINESS_HOUR = new BusinessHour(DUMMY_START_TIME, DUMMY_END_TIME, false);
 
     private static BusinessSchedules createBusinessSchedules(BusinessSchedule yesterday, BusinessSchedule today) {
         Map<DayOfWeek, BusinessSchedule> schedules = createDefaultBusinessSchedules();
@@ -75,12 +79,12 @@ public class BusinessSchedulesTest {
         //given
         BusinessSchedule yesterday = createBusinessSchedule(
                 DayOfWeek.MONDAY,
-                new TodayBusinessHour(LocalTime.of(18, 0), LocalTime.of(9, 0), false),
-                new TodayBusinessHour(LocalTime.of(23, 0), LocalTime.of(1, 0), false));
+                new BusinessHour(LocalTime.of(18, 0), LocalTime.of(9, 0), false),
+                new BusinessHour(LocalTime.of(23, 0), LocalTime.of(1, 0), false));
         BusinessSchedule today = createBusinessSchedule(
                 DayOfWeek.TUESDAY,
-                new TodayBusinessHour(LocalTime.of(8, 0), LocalTime.of(21, 0), false),
-                new TodayBusinessHour(LocalTime.of(14, 0), LocalTime.of(16, 0), true));
+                new BusinessHour(LocalTime.of(8, 0), LocalTime.of(21, 0), false),
+                new BusinessHour(LocalTime.of(14, 0), LocalTime.of(16, 0), true));
 
         //then
         Assertions.assertThatThrownBy(() -> {
@@ -99,12 +103,12 @@ public class BusinessSchedulesTest {
         //given
         BusinessSchedule yesterday = createBusinessSchedule(
                 DayOfWeek.MONDAY,
-                new TodayBusinessHour(LocalTime.of(18, 0), LocalTime.of(2, 0), false),
-                new TodayBusinessHour(LocalTime.of(23, 0), LocalTime.of(1, 0), false));
+                new BusinessHour(LocalTime.of(18, 0), LocalTime.of(2, 0), false),
+                new BusinessHour(LocalTime.of(23, 0), LocalTime.of(1, 0), false));
         BusinessSchedule today = createBusinessSchedule(
                 DayOfWeek.TUESDAY,
-                new TodayBusinessHour(LocalTime.of(19, 0), LocalTime.of(2, 0), false),
-                new TodayBusinessHour(LocalTime.of(0, 0), LocalTime.of(1, 0), true));
+                new BusinessHour(LocalTime.of(19, 0), LocalTime.of(2, 0), false),
+                new BusinessHour(LocalTime.of(0, 0), LocalTime.of(1, 0), true));
 
         BusinessSchedules businessSchedules = createBusinessSchedules(yesterday, today);
 
@@ -139,12 +143,12 @@ public class BusinessSchedulesTest {
         //given
         BusinessSchedule yesterday = createBusinessSchedule(
                 DayOfWeek.MONDAY,
-                new TodayBusinessHour(LocalTime.of(18, 0), LocalTime.of(2, 0), false),
-                new TodayBusinessHour(LocalTime.of(23, 0), LocalTime.of(1, 0), false));
+                new BusinessHour(LocalTime.of(18, 0), LocalTime.of(2, 0), false),
+                new BusinessHour(LocalTime.of(23, 0), LocalTime.of(1, 0), false));
         BusinessSchedule today = createBusinessSchedule(
                 DayOfWeek.TUESDAY,
-                new TodayBusinessHour(LocalTime.of(19, 0), LocalTime.of(2, 0), false),
-                new TodayBusinessHour(LocalTime.of(23, 30), LocalTime.of(1, 0), false));
+                new BusinessHour(LocalTime.of(19, 0), LocalTime.of(2, 0), false),
+                new BusinessHour(LocalTime.of(23, 30), LocalTime.of(1, 0), false));
 
         BusinessSchedules businessSchedules = createBusinessSchedules(yesterday, today);
 
@@ -181,12 +185,12 @@ public class BusinessSchedulesTest {
         //given
         BusinessSchedule yesterday = createBusinessSchedule(
                 DayOfWeek.MONDAY,
-                new TodayBusinessHour(LocalTime.of(18, 0), LocalTime.of(2, 0), false),
-                new TodayBusinessHour(LocalTime.of(22, 0), LocalTime.of(23, 0), false));
+                new BusinessHour(LocalTime.of(18, 0), LocalTime.of(2, 0), false),
+                new BusinessHour(LocalTime.of(22, 0), LocalTime.of(23, 0), false));
         BusinessSchedule today = createBusinessSchedule(
                 DayOfWeek.TUESDAY,
-                new TodayBusinessHour(LocalTime.of(19, 0), LocalTime.of(2, 0), false),
-                new TodayBusinessHour(LocalTime.of(23, 30), LocalTime.of(1, 0), false));
+                new BusinessHour(LocalTime.of(19, 0), LocalTime.of(2, 0), false),
+                new BusinessHour(LocalTime.of(23, 30), LocalTime.of(1, 0), false));
 
         BusinessSchedules businessSchedules = createBusinessSchedules(yesterday, today);
 
@@ -226,12 +230,12 @@ public class BusinessSchedulesTest {
         //given
         BusinessSchedule yesterday = createBusinessSchedule(
                 DayOfWeek.MONDAY,
-                new TodayBusinessHour(LocalTime.of(18, 0), LocalTime.of(2, 0), false),
-                new TodayBusinessHour(LocalTime.of(0, 0), LocalTime.of(1, 0), true));
+                new BusinessHour(LocalTime.of(18, 0), LocalTime.of(2, 0), false),
+                new BusinessHour(LocalTime.of(0, 0), LocalTime.of(1, 0), true));
         BusinessSchedule today = createBusinessSchedule(
                 DayOfWeek.TUESDAY,
-                new TodayBusinessHour(LocalTime.of(9, 0), LocalTime.of(17, 30), false),
-                new TodayBusinessHour(LocalTime.of(15, 0), LocalTime.of(17, 0), false));
+                new BusinessHour(LocalTime.of(9, 0), LocalTime.of(17, 30), false),
+                new BusinessHour(LocalTime.of(15, 0), LocalTime.of(17, 0), false));
 
         BusinessSchedules businessSchedules = createBusinessSchedules(yesterday, today);
 
@@ -270,12 +274,12 @@ public class BusinessSchedulesTest {
         //given
         BusinessSchedule yesterday = createBusinessSchedule(
                 DayOfWeek.MONDAY,
-                new TodayBusinessHour(LocalTime.of(18, 0), LocalTime.of(2, 0), false),
-                new TodayBusinessHour(LocalTime.of(23, 0), LocalTime.of(1, 0), false));
+                new BusinessHour(LocalTime.of(18, 0), LocalTime.of(2, 0), false),
+                new BusinessHour(LocalTime.of(23, 0), LocalTime.of(1, 0), false));
         BusinessSchedule today = createBusinessSchedule(
                 DayOfWeek.TUESDAY,
-                new TodayBusinessHour(LocalTime.of(9, 0), LocalTime.of(17, 30), false),
-                new TodayBusinessHour(LocalTime.of(15, 0), LocalTime.of(17, 0), false));
+                new BusinessHour(LocalTime.of(9, 0), LocalTime.of(17, 30), false),
+                new BusinessHour(LocalTime.of(15, 0), LocalTime.of(17, 0), false));
 
         BusinessSchedules businessSchedules = createBusinessSchedules(yesterday, today);
 
@@ -314,12 +318,12 @@ public class BusinessSchedulesTest {
         //given
         BusinessSchedule yesterday = createBusinessSchedule(
                 DayOfWeek.MONDAY,
-                new TodayBusinessHour(LocalTime.of(18, 0), LocalTime.of(2, 0), false),
-                new TodayBusinessHour(LocalTime.of(22, 0), LocalTime.of(23, 0), false));
+                new BusinessHour(LocalTime.of(18, 0), LocalTime.of(2, 0), false),
+                new BusinessHour(LocalTime.of(22, 0), LocalTime.of(23, 0), false));
         BusinessSchedule today = createBusinessSchedule(
                 DayOfWeek.TUESDAY,
-                new TodayBusinessHour(LocalTime.of(9, 0), LocalTime.of(17, 30), false),
-                new TodayBusinessHour(LocalTime.of(15, 0), LocalTime.of(17, 0), false));
+                new BusinessHour(LocalTime.of(9, 0), LocalTime.of(17, 30), false),
+                new BusinessHour(LocalTime.of(15, 0), LocalTime.of(17, 0), false));
 
         BusinessSchedules businessSchedules = createBusinessSchedules(yesterday, today);
 
@@ -357,12 +361,12 @@ public class BusinessSchedulesTest {
         //given
         BusinessSchedule yesterday = createBusinessSchedule(
                 DayOfWeek.MONDAY,
-                new TodayBusinessHour(LocalTime.of(9, 0), LocalTime.of(12, 0), false),
-                new TodayBusinessHour(LocalTime.of(10, 0), LocalTime.of(11, 0), false));
+                new BusinessHour(LocalTime.of(9, 0), LocalTime.of(12, 0), false),
+                new BusinessHour(LocalTime.of(10, 0), LocalTime.of(11, 0), false));
         BusinessSchedule today = createBusinessSchedule(
                 DayOfWeek.TUESDAY,
-                new TodayBusinessHour(LocalTime.of(13, 0), LocalTime.of(16, 0), false),
-                new TodayBusinessHour(LocalTime.of(14, 0), LocalTime.of(15, 0), false));
+                new BusinessHour(LocalTime.of(13, 0), LocalTime.of(16, 0), false),
+                new BusinessHour(LocalTime.of(14, 0), LocalTime.of(15, 0), false));
 
         BusinessSchedules businessSchedules = createBusinessSchedules(yesterday, today);
 

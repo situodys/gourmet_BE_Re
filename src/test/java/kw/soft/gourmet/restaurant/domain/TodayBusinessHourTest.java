@@ -6,8 +6,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Stream;
-import kw.soft.gourmet.restaurant.exception.Code;
-import kw.soft.gourmet.restaurant.exception.RestaurantException;
+import kw.soft.gourmet.domain.restaurant.BusinessHour;
+import kw.soft.gourmet.domain.restaurant.exception.Code;
+import kw.soft.gourmet.domain.restaurant.exception.RestaurantException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,10 +21,10 @@ public class TodayBusinessHourTest {
     @DisplayName("null을 포함하여 초기화 하는 경우 예외를 발생시킨다")
     public void throwExceptionWhenFieldIsNull() throws Exception {
         //then
-        assertThatThrownBy(() -> new TodayBusinessHour(LocalTime.MIDNIGHT, null, false))
+        assertThatThrownBy(() -> new BusinessHour(LocalTime.MIDNIGHT, null, false))
                 .isInstanceOf(RestaurantException.class)
                 .extracting("code").isEqualTo(Code.INVALID_BUSINESS_HOUR);
-        assertThatThrownBy(() -> new TodayBusinessHour(null, LocalTime.MIDNIGHT, false))
+        assertThatThrownBy(() -> new BusinessHour(null, LocalTime.MIDNIGHT, false))
                 .isInstanceOf(RestaurantException.class)
                 .extracting("code").isEqualTo(Code.INVALID_BUSINESS_HOUR);
     }
@@ -46,11 +47,11 @@ public class TodayBusinessHourTest {
         boolean isStartAtNextDay = false;
 
         return Stream.of(
-                Arguments.of(new TodayBusinessHour(UNSET, UNSET, isStartAtNextDay), true),
+                Arguments.of(new BusinessHour(UNSET, UNSET, isStartAtNextDay), true),
 
-                Arguments.of(new TodayBusinessHour(UNSET, end, isStartAtNextDay), false),
-                Arguments.of(new TodayBusinessHour(start, UNSET, isStartAtNextDay), false),
-                Arguments.of(new TodayBusinessHour(start, end, isStartAtNextDay), false)
+                Arguments.of(new BusinessHour(UNSET, end, isStartAtNextDay), false),
+                Arguments.of(new BusinessHour(start, UNSET, isStartAtNextDay), false),
+                Arguments.of(new BusinessHour(start, end, isStartAtNextDay), false)
         );
     }
 
@@ -69,14 +70,14 @@ public class TodayBusinessHourTest {
     }
 
     private static List<Arguments> provideInnerAndOuterBusinessHourWhenEndDifferentDay() {
-        BusinessHour outerWhichEndToday = new TodayBusinessHour(LocalTime.of(21, 0), LocalTime.of(23, 0), false);
-        BusinessHour outerWhichEndAtTomorrow = new TodayBusinessHour(LocalTime.of(21, 0), LocalTime.of(3, 0), false);
-        BusinessHour outerWhichStartAtTomorrow = new TodayBusinessHour(LocalTime.of(1, 0), LocalTime.of(3, 0), false);
+        BusinessHour outerWhichEndToday = new BusinessHour(LocalTime.of(21, 0), LocalTime.of(23, 0), false);
+        BusinessHour outerWhichEndAtTomorrow = new BusinessHour(LocalTime.of(21, 0), LocalTime.of(3, 0), false);
+        BusinessHour outerWhichStartAtTomorrow = new BusinessHour(LocalTime.of(1, 0), LocalTime.of(3, 0), false);
 
-        BusinessHour innerWhichEndToday = new TodayBusinessHour(LocalTime.of(22, 0), LocalTime.of(23, 0), false);
-        BusinessHour innerWhichStartAtTomorrowAndInOuter = new TodayBusinessHour(LocalTime.of(1, 0), LocalTime.of(2, 0),
+        BusinessHour innerWhichEndToday = new BusinessHour(LocalTime.of(22, 0), LocalTime.of(23, 0), false);
+        BusinessHour innerWhichStartAtTomorrowAndInOuter = new BusinessHour(LocalTime.of(1, 0), LocalTime.of(2, 0),
                 true);
-        BusinessHour innerWhichStartAtTomorrowAndNotInOuter = new TodayBusinessHour(LocalTime.of(1, 0),
+        BusinessHour innerWhichStartAtTomorrowAndNotInOuter = new BusinessHour(LocalTime.of(1, 0),
                 LocalTime.of(4, 0),
                 true);
 
@@ -101,39 +102,39 @@ public class TodayBusinessHourTest {
     }
 
     private static List<Arguments> provideInnerAndOuterBusinessHourWhenBothEndToday() {
-        BusinessHour EndTodayOuter = new TodayBusinessHour(
+        BusinessHour EndTodayOuter = new BusinessHour(
                 LocalTime.of(10, 0),
                 LocalTime.of(14, 0),
                 false);
 
-        BusinessHour EndTodayInnerInOuter = new TodayBusinessHour(
+        BusinessHour EndTodayInnerInOuter = new BusinessHour(
                 LocalTime.of(11, 0),
                 LocalTime.of(13, 0),
                 false);
         Arguments innerIsInOuterThenTrue = Arguments.of(EndTodayInnerInOuter, EndTodayOuter, true);
 
-        BusinessHour EndTodayInnerWhoseEndIsBeforeOuterStart = new TodayBusinessHour(
+        BusinessHour EndTodayInnerWhoseEndIsBeforeOuterStart = new BusinessHour(
                 LocalTime.of(8, 0),
                 LocalTime.of(10, 0),
                 false);
         Arguments innerEndIsBeforeOuterStartThenFalse = Arguments.of(
                 EndTodayInnerWhoseEndIsBeforeOuterStart, EndTodayOuter, false);
 
-        BusinessHour EndTodayInnerWhoseStartIsBeforeOuterStartAndEndIsInOuter = new TodayBusinessHour(
+        BusinessHour EndTodayInnerWhoseStartIsBeforeOuterStartAndEndIsInOuter = new BusinessHour(
                 LocalTime.of(9, 0),
                 LocalTime.of(12, 0),
                 false);
         Arguments innerStartIsBeforeOuterStartAndInnerEndIsInOuterThenFalse = Arguments.of(
                 EndTodayInnerWhoseStartIsBeforeOuterStartAndEndIsInOuter, EndTodayOuter, false);
 
-        BusinessHour EndTodayInnerWhoseStartIsInOuterAndEndIsAfterOuter = new TodayBusinessHour(
+        BusinessHour EndTodayInnerWhoseStartIsInOuterAndEndIsAfterOuter = new BusinessHour(
                 LocalTime.of(12, 0),
                 LocalTime.of(15, 0),
                 false);
         Arguments innerStartIsInOuterAndInnerEndIsAfterOuterEndThenFalse = Arguments.of(
                 EndTodayInnerWhoseStartIsInOuterAndEndIsAfterOuter, EndTodayOuter, false);
 
-        BusinessHour EndTodayInnerWhoseStartIsAfterOuterEnd = new TodayBusinessHour(
+        BusinessHour EndTodayInnerWhoseStartIsAfterOuterEnd = new BusinessHour(
                 LocalTime.of(15, 0),
                 LocalTime.of(17, 0),
                 false);
@@ -150,18 +151,18 @@ public class TodayBusinessHourTest {
     }
 
     private static List<Arguments> provideInnerAndOuterBusinessHourWhenBothEndTomorrow() {
-        BusinessHour outer = new TodayBusinessHour(LocalTime.of(22, 0), LocalTime.of(3, 0), true);
+        BusinessHour outer = new BusinessHour(LocalTime.of(22, 0), LocalTime.of(3, 0), true);
 
-        BusinessHour innerInOuter = new TodayBusinessHour(LocalTime.of(23, 0), LocalTime.of(2, 0), true);
+        BusinessHour innerInOuter = new BusinessHour(LocalTime.of(23, 0), LocalTime.of(2, 0), true);
         Arguments innerIsInOuterThenTrue = Arguments.of(innerInOuter, outer,
                 true);
 
-        BusinessHour innerWhoseStartIsBeforeOuterStartAndEndIsInOuter = new TodayBusinessHour(
+        BusinessHour innerWhoseStartIsBeforeOuterStartAndEndIsInOuter = new BusinessHour(
                 LocalTime.of(21, 0), LocalTime.of(2, 0), true);
         Arguments innerWhoseStartIsBeforeOuterStartAndEndIsInOuterThenFalse = Arguments.of(
                 innerWhoseStartIsBeforeOuterStartAndEndIsInOuter, outer, false);
 
-        BusinessHour innerWhoseStartIsInOuterAndEndIsAfterOuter = new TodayBusinessHour(LocalTime.of(23, 0),
+        BusinessHour innerWhoseStartIsInOuterAndEndIsAfterOuter = new BusinessHour(LocalTime.of(23, 0),
                 LocalTime.of(4, 0), true);
         Arguments innerWhoseStartIsInOuterAndEndIsAfterOuterThenFalse = Arguments.of(
                 innerWhoseStartIsInOuterAndEndIsAfterOuter, outer, false);
@@ -180,7 +181,7 @@ public class TodayBusinessHourTest {
         LocalTime close = LocalTime.of(18, 0);
 
         //when
-        BusinessHour businessHour = new TodayBusinessHour(open, close, false);
+        BusinessHour businessHour = new BusinessHour(open, close, false);
         boolean isWithinBusinessHour = businessHour.isWithinBusinessHour(time);
 
         //then
@@ -207,7 +208,7 @@ public class TodayBusinessHourTest {
         LocalTime close = LocalTime.of(2, 0);
 
         //when
-        BusinessHour businessHour = new TodayBusinessHour(open, close, false);
+        BusinessHour businessHour = new BusinessHour(open, close, false);
         boolean isWithinBusinessHour = businessHour.isWithinBusinessHour(time);
 
         //then

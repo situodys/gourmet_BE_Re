@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalTime;
 import java.util.stream.Stream;
+import kw.soft.gourmet.domain.restaurant.BusinessHour;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -21,7 +22,8 @@ public class YesterdayBusinessHourTest {
         LocalTime close = LocalTime.of(2, 0);
 
         //when
-        BusinessHour businessHour = new YesterdayBusinessHour(open, close,false);
+        BusinessHour businessHour = new BusinessHour(open, close,false);
+        businessHour.convertToYesterdayBusinessHour();
         boolean hasContained = businessHour.isWithinBusinessHour(now);
         //then
         assertThat(hasContained).isEqualTo(answer);
