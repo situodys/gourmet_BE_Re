@@ -27,7 +27,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 public class RestaurantRepositoryTest {
 
     @Autowired
