@@ -1,4 +1,4 @@
-package kw.soft.gourmet.restaurant.domain.repository;
+package kw.soft.gourmet.domain.restaurant.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,7 +17,6 @@ import kw.soft.gourmet.domain.restaurant.Name;
 import kw.soft.gourmet.domain.restaurant.PhoneNumber;
 import kw.soft.gourmet.domain.restaurant.Restaurant;
 import kw.soft.gourmet.domain.restaurant.RestaurantType;
-import kw.soft.gourmet.domain.restaurant.repository.RestaurantRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

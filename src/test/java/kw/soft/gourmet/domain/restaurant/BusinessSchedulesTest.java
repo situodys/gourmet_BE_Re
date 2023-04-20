@@ -1,4 +1,4 @@
-package kw.soft.gourmet.restaurant.domain;
+package kw.soft.gourmet.domain.restaurant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

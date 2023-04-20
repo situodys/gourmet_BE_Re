@@ -1,4 +1,4 @@
-package kw.soft.gourmet.restaurant.domain;
+package kw.soft.gourmet.domain.restaurant;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
