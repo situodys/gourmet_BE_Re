@@ -38,7 +38,7 @@ public class BusinessSchedules {
         for (DayOfWeek today : DayOfWeek.values()) {
             BusinessSchedule yesterdayBs = businessSchedules.get(today.minus(ONE_DAY));
             BusinessSchedule todayBs = businessSchedules.get(today);
-            if (!yesterdayBs.isEndBefore(todayBs)) {
+            if (yesterdayBs.isEndAfterStartOf(todayBs)) {
                 throw new RestaurantException(Code.INVALID_BUSINESS_SCHEDULE_INTERVAL);
             }
         }
