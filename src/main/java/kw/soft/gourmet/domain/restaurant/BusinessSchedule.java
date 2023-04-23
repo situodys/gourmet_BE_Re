@@ -65,15 +65,15 @@ public class BusinessSchedule {
     }
 
     private void checkValidRunTime(final BusinessHour runTime) {
-        if (runTime.isUnset()) {
-            throw new RestaurantException(Code.INVALID_RUNTIME);
-        }
         if (runTime.isStartAtTomorrow()) {
             throw new RestaurantException(Code.INVALID_START_OF_RUNTIME);
         }
     }
 
     private void checkBreakTimeIsInRunTime(final BusinessHour runTime, final BusinessHour breakTime) {
+        if (runTime.isUnset() && !breakTime.isUnset()) {
+            throw new RestaurantException(Code.INVALID_BREAK_TIME);
+        }
         if (breakTime.isUnset()) {
             return;
         }
@@ -83,7 +83,7 @@ public class BusinessSchedule {
     }
 
     public BusinessStatus calculateBusinessStatus(final LocalTime now) {
-        if (isClosedAt(now)) {
+        if (isDayOff() || isClosedAt(now)) {
             return BusinessStatus.CLOSE;
         }
         if (isBreakTimeAt(now)) {
@@ -92,24 +92,27 @@ public class BusinessSchedule {
         return BusinessStatus.OPEN;
     }
 
+    private boolean isDayOff() {
+        return runTime.isUnset();
+    }
+
     private boolean isClosedAt(final LocalTime now) {
         return !runTime.isWithinBusinessHour(now);
     }
 
     private boolean isBreakTimeAt(final LocalTime now) {
-
         return breakTime.isWithinBusinessHour(now);
     }
 
-    public boolean isEndBefore(final BusinessSchedule tomorrowBusinessSchedule) {
+    public boolean isEndAfterStartOf(final BusinessSchedule tomorrowBusinessSchedule) {
         if (!this.runTime.isEndAtTomorrow()) {
-            return true;
+            return false;
         }
-        return !tomorrowBusinessSchedule.isStartAfter(this.runTime.getEnd());
+        return tomorrowBusinessSchedule.isStartBeforeEndOf(this.runTime);
     }
 
-    public boolean isStartAfter(final LocalTime time) {
-        return runTime.isAfterOrEqualToStart(time);
+    public boolean isStartBeforeEndOf(final BusinessHour another) {
+        return this.runTime.isStartBeforeEndOf(another);
     }
 
     public DayOfWeek getDayOfWeek() {
@@ -117,8 +120,8 @@ public class BusinessSchedule {
     }
 
     public BusinessSchedule convertToYesterdayBusinessSchedule() {
-        runTime.convertToYesterdayBusinessHour();
-        breakTime.convertToYesterdayBusinessHour();
+        runTime.changeTimeCheckerBasedYesterday();
+        breakTime.changeTimeCheckerBasedYesterday();
         return this;
     }
 

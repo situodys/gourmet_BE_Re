@@ -9,13 +9,17 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BusinessHour {
-    private static final LocalTime UNSET = LocalTime.of(0, 0);
+    private static final LocalTime UNSET_TIME = LocalTime.of(0, 0);
     private static final TimeChecker timeCheckerBasedToday = new TimeCheckerBasedToday();
     private static final TimeChecker timeCheckerBasedYesterday = new TimeCheckerBasedYesterday();
+    public static final BusinessHour UNSET = new BusinessHour(UNSET_TIME, UNSET_TIME, false);
 
     private LocalTime start;
+
     private LocalTime end;
+
     private Boolean isStartAtTomorrow;
+
     @Transient
     private TimeChecker timeChecker = timeCheckerBasedToday;
 
@@ -33,17 +37,20 @@ public class BusinessHour {
     }
 
     public boolean isUnset() {
-        return this.start.equals(UNSET) && this.end.equals(UNSET);
+        return this.start.equals(UNSET_TIME) && this.end.equals(UNSET_TIME);
     }
 
     public boolean isIn(final BusinessHour outer) {
         if (isStartAndEndSameDayWith(outer)) {
-            return outer.isAfterOrEqualToStart(this.start) && outer.isBeforeOrEqualToEnd(this.end);
+            return outer.isTimeAfterStart(this.start) && outer.isTimeBeforeEnd(this.end);
         }
-        if (isEndSameDayWith(outer)) {
-            return outer.isBeforeOrEqualToEnd(this.end);
+        if (isEndSameDayWith(outer) && !outer.isStartAtTomorrow()) {
+            return outer.isTimeBeforeEnd(this.end);
         }
-        return outer.isAfterOrEqualToStart(this.start);
+        if (isStartSameDayWith(outer) && outer.isEndAtTomorrow()) {
+            return outer.isTimeAfterStart(this.start);
+        }
+        return false;
     }
 
     private boolean isStartAndEndSameDayWith(final BusinessHour outer) {
@@ -66,11 +73,11 @@ public class BusinessHour {
         return this.isStartAtTomorrow;
     }
 
-    public boolean isAfterOrEqualToStart(final LocalTime time) {
+    public boolean isTimeAfterStart(final LocalTime time) {
         return !time.isBefore(this.start);
     }
 
-    protected boolean isBeforeOrEqualToEnd(final LocalTime time) {
+    public boolean isTimeBeforeEnd(final LocalTime time) {
         return !time.isAfter(this.end);
     }
 
@@ -78,12 +85,13 @@ public class BusinessHour {
         return timeChecker.isWithinBusinessHour(this, now);
     }
 
-    public void convertToYesterdayBusinessHour() {
-        this.timeChecker = timeCheckerBasedYesterday;
+    public boolean isStartBeforeEndOf(BusinessHour another) {
+        return another.isTimeBeforeEnd(this.start);
     }
 
-    public LocalTime getEnd() {
-        return this.end;
+    public BusinessHour changeTimeCheckerBasedYesterday() {
+        this.timeChecker = timeCheckerBasedYesterday;
+        return this;
     }
 
     @Override

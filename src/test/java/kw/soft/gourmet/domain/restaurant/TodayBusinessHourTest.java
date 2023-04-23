@@ -225,4 +225,43 @@ public class TodayBusinessHourTest {
                 Arguments.of(LocalTime.of(3, 0), false)
         );
     }
+
+    @Test
+    @DisplayName("시간이 설정되지 않았을 경우 주어진 시간을 포함하지 않는다")
+    public void isWithinBusinessHourReturnFalseWhenUnset() throws Exception {
+        //given
+        BusinessHour businessHour = BusinessHour.UNSET;
+        LocalTime now = LocalTime.of(0, 0);
+
+        //when
+        boolean result = businessHour.isWithinBusinessHour(now);
+
+        //then
+        assertThat(result).isEqualTo(false);
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideAnotherBusinessHourAndAnswer")
+    @DisplayName("다른 BusinessHour의 마감시감보다 먼저 시작하는지 확인한다")
+    public void isStartBeforeEndOf(BusinessHour another, boolean answer) throws Exception {
+        //given
+        BusinessHour businessHour = new BusinessHour(LocalTime.of(8, 0), LocalTime.of(21, 0), false);
+
+        //when
+        boolean result = businessHour.isStartBeforeEndOf(another);
+
+        //then
+        assertThat(result).isEqualTo(answer);
+    }
+
+    private static Stream<Arguments> provideAnotherBusinessHourAndAnswer() {
+        return Stream.of(
+                Arguments.of(new BusinessHour(LocalTime.of(6, 0), LocalTime.of(9, 0), true), true),
+                Arguments.of(new BusinessHour(LocalTime.of(6, 0), LocalTime.of(10, 0), false), true),
+                Arguments.of(new BusinessHour(LocalTime.of(6, 0), LocalTime.of(9, 0), false), true),
+                Arguments.of(new BusinessHour(LocalTime.of(6, 0), LocalTime.of(7, 0), false), false),
+                Arguments.of(new BusinessHour(LocalTime.of(5, 0), LocalTime.of(6, 0), true), false)
+        );
+    }
+
 }

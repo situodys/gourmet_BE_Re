@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalTime;
 import java.util.stream.Stream;
-import kw.soft.gourmet.domain.restaurant.BusinessHour;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -23,7 +23,7 @@ public class YesterdayBusinessHourTest {
 
         //when
         BusinessHour businessHour = new BusinessHour(open, close,false);
-        businessHour.convertToYesterdayBusinessHour();
+        businessHour.changeTimeCheckerBasedYesterday();
         boolean hasContained = businessHour.isWithinBusinessHour(now);
         //then
         assertThat(hasContained).isEqualTo(answer);
@@ -38,5 +38,18 @@ public class YesterdayBusinessHourTest {
                 Arguments.of(LocalTime.of(0, 0), true),
                 Arguments.of(LocalTime.of(1, 0), true)
         );
+    }
+
+    @Test
+    @DisplayName("시간이 설정되지 않았을 경우 주어진 시간을 포함하지 않는다")
+    public void isWithinBusinessHourReturnFalseWhenUnset() throws Exception{
+        //given
+        BusinessHour businessHour = BusinessHour.UNSET;
+        LocalTime now = LocalTime.of(0, 0);
+        //when
+        boolean result = businessHour.isWithinBusinessHour(now);
+
+        //then
+        assertThat(result).isEqualTo(false);
     }
 }
