@@ -84,7 +84,7 @@ public class BusinessSchedulesTest {
         BusinessSchedule today = createBusinessSchedule(
                 DayOfWeek.TUESDAY,
                 new BusinessHour(LocalTime.of(8, 0), LocalTime.of(21, 0), false),
-                new BusinessHour(LocalTime.of(14, 0), LocalTime.of(16, 0), true));
+                new BusinessHour(LocalTime.of(14, 0), LocalTime.of(16, 0), false));
 
         //then
         Assertions.assertThatThrownBy(() -> {
