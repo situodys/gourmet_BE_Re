@@ -10,10 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 import kw.soft.gourmet.domain.restaurant.exception.Code;
 import kw.soft.gourmet.domain.restaurant.exception.RestaurantException;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @Embeddable
-@NoArgsConstructor
+@NoArgsConstructor(access= AccessLevel.PROTECTED)
 public class BusinessSchedules {
     private final static int ONE_DAY = 1;
     private final static int ONE_WEEK = 7;
