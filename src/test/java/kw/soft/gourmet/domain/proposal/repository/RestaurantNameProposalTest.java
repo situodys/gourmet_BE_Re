@@ -6,6 +6,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
+import kw.soft.gourmet.common.annotation.RepositoryTest;
 import kw.soft.gourmet.domain.member.Authority;
 import kw.soft.gourmet.domain.member.HighPasswordPolicy;
 import kw.soft.gourmet.domain.member.Member;
@@ -34,9 +35,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = Replace.NONE)
-@ActiveProfiles("test")
+@RepositoryTest
 public class RestaurantNameProposalTest {
 
     @Autowired

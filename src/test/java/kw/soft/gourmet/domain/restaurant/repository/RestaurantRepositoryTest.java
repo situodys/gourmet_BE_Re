@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import kw.soft.gourmet.common.annotation.RepositoryTest;
 import kw.soft.gourmet.domain.restaurant.Address;
 import kw.soft.gourmet.domain.restaurant.BusinessHour;
 import kw.soft.gourmet.domain.restaurant.BusinessSchedule;
@@ -27,9 +28,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = Replace.NONE)
-@ActiveProfiles("test")
+@RepositoryTest
 public class RestaurantRepositoryTest {
 
     @Autowired

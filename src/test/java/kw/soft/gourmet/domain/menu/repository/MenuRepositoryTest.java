@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
+import kw.soft.gourmet.common.annotation.RepositoryTest;
 import kw.soft.gourmet.domain.menu.Menu;
 import kw.soft.gourmet.domain.menu.MenuCategory;
 import kw.soft.gourmet.domain.restaurant.BusinessHour;
@@ -19,9 +20,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = Replace.NONE)
-@ActiveProfiles("test")
+@RepositoryTest
 public class MenuRepositoryTest {
 
     @Autowired

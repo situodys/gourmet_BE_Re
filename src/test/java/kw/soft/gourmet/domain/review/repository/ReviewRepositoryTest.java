@@ -2,6 +2,7 @@ package kw.soft.gourmet.domain.review.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import kw.soft.gourmet.common.annotation.RepositoryTest;
 import kw.soft.gourmet.domain.review.Review;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,9 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = Replace.NONE)
-@ActiveProfiles("test")
+@RepositoryTest
 public class ReviewRepositoryTest {
 
     @Autowired
