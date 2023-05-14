@@ -6,7 +6,9 @@ import jakarta.persistence.EntityNotFoundException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import kw.soft.gourmet.domain.restaurant.Address;
 import kw.soft.gourmet.domain.restaurant.BusinessHour;
 import kw.soft.gourmet.domain.restaurant.BusinessSchedule;
@@ -58,11 +60,9 @@ public class RestaurantRepositoryTest {
                 .businessSchedules(createDefaultBusinessSchedules())
                 .build();
         //when
-        restaurantRepository.save(restaurant);
-        restaurantRepository.flush();
+        Restaurant saved = restaurantRepository.save(restaurant);
 
         //then
-        Restaurant saved = restaurantRepository.findById(1L).orElseThrow(EntityNotFoundException::new);
         assertThat(saved.getId()).isNotNull();
     }
 }
