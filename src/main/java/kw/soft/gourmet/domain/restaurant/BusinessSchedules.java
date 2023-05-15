@@ -8,6 +8,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import kw.soft.gourmet.domain.restaurant.exception.Code;
 import kw.soft.gourmet.domain.restaurant.exception.RestaurantException;
 import lombok.AccessLevel;
@@ -26,7 +27,7 @@ public class BusinessSchedules {
     public BusinessSchedules(final Map<DayOfWeek, BusinessSchedule> businessSchedules) {
         checkFullDayOfWeek(businessSchedules);
         checkTimeIntervalAmongBusinessSchedules(businessSchedules);
-        this.businessSchedules = businessSchedules;
+        this.businessSchedules = new HashMap<>(businessSchedules);
     }
 
     private void checkFullDayOfWeek(final Map<DayOfWeek, BusinessSchedule> businessSchedules) {
