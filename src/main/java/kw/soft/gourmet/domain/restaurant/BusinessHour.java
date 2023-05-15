@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import kw.soft.gourmet.domain.restaurant.exception.Code;
 import kw.soft.gourmet.domain.restaurant.exception.RestaurantException;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,6 +24,7 @@ public class BusinessHour {
     @Transient
     private TimeChecker timeChecker = timeCheckerBasedToday;
 
+    @Builder
     public BusinessHour(final LocalTime start, final LocalTime end, final boolean isStartAtTomorrow) {
         checkNull(start, end);
         this.start = start;
