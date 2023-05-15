@@ -1,4 +1,4 @@
-package kw.soft.gourmet.domain.menu;
+package kw.soft.gourmet.domain.review;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -8,7 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import kw.soft.gourmet.domain.review.Review;
+import kw.soft.gourmet.domain.menu.Menu;
+import kw.soft.gourmet.domain.menu.Name;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -41,5 +42,9 @@ public class ReviewedMenu {
 
     public Long getId() {
         return id;
+    }
+
+    public void updateReview(Review review) {
+        this.review = review;
     }
 }

@@ -8,11 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
 import kw.soft.gourmet.domain.member.Member;
-import kw.soft.gourmet.domain.menu.ReviewedMenu;
 import kw.soft.gourmet.domain.restaurant.Restaurant;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -42,17 +38,22 @@ public class Review {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "review")
-    private List<ReviewedMenu> reviewedMenus = new ArrayList<>();
+    @Embedded
+    private ReviewedMenus reviewedMenus = new ReviewedMenus();
 
     @Builder
-    private Review(final Long id, final String title, final String content, final Integer rating,
-                   final List<ReviewedMenu> reviewedMenus) {
+    private Review(final Long id, final String title, final String content,
+                   final Integer rating, final ReviewedMenus reviewedMenus, final Member member,
+                   final Restaurant restaurant) {
         this.id = id;
         this.title = new Title(title);
         this.content = new Content(content);
         this.rating = new Rating(rating);
+        this.restaurant = restaurant;
+        this.member = member;
         this.reviewedMenus = reviewedMenus;
+
+        reviewedMenus.updateReview(this);
     }
 
     public Long getId() {
