@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,12 +27,12 @@ public class Member {
     @Enumerated(value = EnumType.STRING)
     private Authority authority;
 
-    @Builder
-    private Member(final Long id, final String email, final String password, final PasswordPolicy passwordPolicy,
+    @Builder(access = AccessLevel.PACKAGE)
+    private Member(final Long id, final Email email, final Password password,
                    final Authority authority) {
         this.id = id;
-        this.email = new Email(email);
-        this.password = new Password(password, passwordPolicy);
+        this.email = email;
+        this.password = password;
         this.authority = authority;
     }
 

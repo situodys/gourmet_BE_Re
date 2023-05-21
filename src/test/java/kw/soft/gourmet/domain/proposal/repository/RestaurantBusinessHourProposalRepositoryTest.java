@@ -3,7 +3,7 @@ package kw.soft.gourmet.domain.proposal.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import kw.soft.gourmet.common.annotation.RepositoryTest;
-import kw.soft.gourmet.common.factory.MemberFactory;
+import kw.soft.gourmet.common.factory.MemberFixtures;
 import kw.soft.gourmet.common.factory.MenuFactory;
 import kw.soft.gourmet.common.factory.ProposalFactory;
 import kw.soft.gourmet.common.factory.RestaurantFactory;
@@ -37,7 +37,7 @@ public class RestaurantBusinessHourProposalRepositoryTest {
 
     private Menu menu = MenuFactory.createMenu(restaurant);
 
-    private Member member = MemberFactory.createMemberWithHighPasswordPolicy();
+    private Member member = MemberFixtures.createMemberWithHighPasswordPolicyBcryptEncoded();
 
     @BeforeEach
     public void setUp() {

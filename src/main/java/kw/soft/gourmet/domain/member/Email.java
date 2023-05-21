@@ -21,7 +21,7 @@ public class Email {
     @Column(name = "email", nullable = false, unique = true)
     private String value;
 
-    public Email(final String value) {
+    Email(final String value) {
         checkValidEmail(value);
         this.value = value;
     }
