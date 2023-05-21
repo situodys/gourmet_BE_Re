@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,13 +19,16 @@ public class Password {
     @Column(name = "password", nullable = false)
     private String value;
 
-    public Password(final String value, final PasswordPolicy passwordPolicy) {
+    Password(final String value, final PasswordPolicy passwordPolicy, final PasswordEncoder passwordEncoder) {
         checkValidPassword(value, passwordPolicy);
-        this.value = value;
+        this.value = encodePassword(value, passwordEncoder);
     }
 
     private void checkValidPassword(final String password, final PasswordPolicy passwordPolicy) {
         passwordPolicy.validate(password);
     }
 
+    private String encodePassword(final String password, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.encode(password);
+    }
 }

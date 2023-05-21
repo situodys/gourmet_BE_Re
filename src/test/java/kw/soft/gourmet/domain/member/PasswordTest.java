@@ -8,6 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class PasswordTest {
 
@@ -27,8 +29,9 @@ public class PasswordTest {
     public void throwsExceptionWhenInvalidPasswordWithHighPasswordPolicy(String value) {
         //given
         PasswordPolicy passwordPolicy = new HighPasswordPolicy();
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         //then
-        assertThatThrownBy(() -> new Password(value, passwordPolicy))
+        assertThatThrownBy(() -> new Password(value, passwordPolicy,passwordEncoder))
                 .isInstanceOf(MemberException.class)
                 .extracting("code").isEqualTo(Code.INVALID_PASSWORD);
     }
