@@ -1,0 +1,17 @@
+= Api Specs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs // 문서에 표기되는 코드들의 하이라이팅을 highlightjs를 사용
+:toc: left // toc (Table Of Contents)를 문서의 좌측에 두기
+:toclevels: 2
+:sectlinks:
+
+[[Auth-Api]]
+== Auth-Api
+
+[[signup]]
+=== 회원 가입
+operation::sign-up-controller-test/sign-up-success[snippets='http-request,http-response,request-fields']
+==== 에러 코드
+operation::sign-up-controller-test/sign-up-fail-by-already-exist-email[snippets='response-body']
+operation::sign-up-controller-test/sign-up-fail-by-empty-field[snippets='response-body']
