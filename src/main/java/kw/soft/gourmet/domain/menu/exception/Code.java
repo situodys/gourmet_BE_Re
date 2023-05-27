@@ -1,12 +1,13 @@
 package kw.soft.gourmet.domain.menu.exception;
 
+import kw.soft.gourmet.exception.ErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
 @Getter
-public enum Code {
+public enum Code implements ErrorCode {
     INVALID_MENU_PRICE(2001, "가격은 음수 일 수 없습니다.", HttpStatus.BAD_REQUEST),
     INVALID_MARKET_PRICE(2002, "싯가의 가격은 설정할 수 없습니다.", HttpStatus.BAD_REQUEST),
     EMPTY_DESCRIPTION(2003, "메뉴 설명이 비어있습니다.", HttpStatus.BAD_REQUEST),

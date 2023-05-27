@@ -1,12 +1,13 @@
 package kw.soft.gourmet.domain.review.exception;
 
+import kw.soft.gourmet.exception.ErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
 @Getter
-public enum Code {
+public enum Code implements ErrorCode {
     EMPTY_TITLE(4001,"리뷰 제목이 비어 입니다.", HttpStatus.BAD_REQUEST),
     INVALID_TITLE_LENGTH(4002,"리뷰 제목은 100자 이내 입니다.", HttpStatus.BAD_REQUEST),
     EMPTY_CONTENT(4003,"리뷰 내용이 비어 있습니다.",HttpStatus.BAD_REQUEST),
