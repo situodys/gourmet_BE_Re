@@ -3,7 +3,11 @@ package kw.soft.gourmet.domain.member;
 import java.util.regex.Pattern;
 import kw.soft.gourmet.domain.member.exception.Code;
 import kw.soft.gourmet.domain.member.exception.MemberException;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component
+@Qualifier("high")
 public class HighPasswordPolicy implements PasswordPolicy {
     private static final String AT_LEAST_ONE_SMALL_ALPHABET_ONE_NUMBER_ONE_SPECIAL_WORD_OVER_8_WORDS_REGEX =
             "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
@@ -12,7 +16,7 @@ public class HighPasswordPolicy implements PasswordPolicy {
     );
 
     @Override
-    public void validate(String password) {
+    public void validate(final String password) {
         if (password == null || !pattern.matcher(password).matches()) {
             throw new MemberException(Code.INVALID_PASSWORD);
         }
