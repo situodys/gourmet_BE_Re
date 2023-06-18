@@ -1,3 +1,6 @@
+### Git Submodule
+src/main/resources/application-secret.yml
+
 HELP.md
 .gradle
 build/

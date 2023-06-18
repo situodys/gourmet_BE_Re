@@ -1,0 +1,4 @@
+[submodule "gourmet_re_submodule"]
+	path = gourmet_re_submodule
+	url = https://github.com/situodys/gourmet_re_submodule.git
+    branch = main

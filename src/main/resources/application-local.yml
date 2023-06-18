@@ -2,6 +2,9 @@ server:
   port: 8889
 
 spring:
+  config:
+    import:
+      - classpath:application-secret.yml
   datasource:
     url: jdbc:mysql://localhost:3306/gourmet_re
     username: gourmetRe
