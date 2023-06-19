@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,7 +37,19 @@ public class Member {
         this.authority = authority;
     }
 
+    public boolean isPasswordMatch(PasswordEncoder passwordEncoder, String another) {
+        return passwordEncoder.matches(another, this.password.getValue());
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public Email getEmail() {
+        return email;
+    }
+
+    public Authority getAuthority() {
+        return authority;
     }
 }
