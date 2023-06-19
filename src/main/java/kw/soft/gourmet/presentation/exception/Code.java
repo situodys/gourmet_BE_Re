@@ -8,8 +8,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 @Getter
 public enum Code implements ErrorCode {
-    INVALID_INPUT(6000, "유효하지 않은 입력값입니다.", HttpStatus.BAD_REQUEST);
-
+    INVALID_INPUT(7000, "유효하지 않은 입력입니다.", HttpStatus.BAD_REQUEST);
 
     private final int code;
     private final String message;
