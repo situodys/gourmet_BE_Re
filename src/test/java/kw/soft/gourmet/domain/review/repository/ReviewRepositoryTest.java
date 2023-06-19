@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Set;
 import kw.soft.gourmet.common.annotation.RepositoryTest;
-import kw.soft.gourmet.common.factory.MemberFixtures;
-import kw.soft.gourmet.common.factory.MenuFactory;
-import kw.soft.gourmet.common.factory.RestaurantFactory;
-import kw.soft.gourmet.common.factory.ReviewFactory;
+import kw.soft.gourmet.common.fixtures.MemberFixtures;
+import kw.soft.gourmet.common.fixtures.MenuFixtures;
+import kw.soft.gourmet.common.fixtures.RestaurantFixtures;
+import kw.soft.gourmet.common.fixtures.ReviewFixtures;
 import kw.soft.gourmet.domain.member.Member;
 import kw.soft.gourmet.domain.member.repository.MemberRepository;
 import kw.soft.gourmet.domain.menu.Menu;
@@ -35,9 +35,9 @@ public class ReviewRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    private Restaurant restaurant = RestaurantFactory.createRestaurant();
+    private Restaurant restaurant = RestaurantFixtures.createRestaurant();
 
-    private Menu menu = MenuFactory.createMenu(restaurant);
+    private Menu menu = MenuFixtures.createMenu(restaurant);
 
     private Member member = MemberFixtures.createMemberWithHighPasswordPolicyBcryptEncoded();
 
@@ -52,7 +52,7 @@ public class ReviewRepositoryTest {
     @DisplayName("리뷰를 저장한다.")
     public void saveReview() throws Exception {
         //given
-        Review review = ReviewFactory.createReview(restaurant, member, Set.of(menu));
+        Review review = ReviewFixtures.createReview(restaurant, member, Set.of(menu));
 
         //when
         Review saved = reviewRepository.save(review);

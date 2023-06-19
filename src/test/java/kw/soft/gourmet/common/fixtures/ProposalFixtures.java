@@ -1,4 +1,4 @@
-package kw.soft.gourmet.common.factory;
+package kw.soft.gourmet.common.fixtures;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -13,7 +13,7 @@ import kw.soft.gourmet.domain.restaurant.BusinessHour;
 import kw.soft.gourmet.domain.restaurant.BusinessHourType;
 import kw.soft.gourmet.domain.restaurant.Restaurant;
 
-public class ProposalFactory {
+public class ProposalFixtures {
     public static MenuNameProposal createMenuNameProposal(final Menu menu, final Member member) {
         return MenuNameProposal.builder()
                 .title("title")
@@ -40,10 +40,10 @@ public class ProposalFactory {
 
     public static RestaurantBusinessHourProposal createRestaurantBusinessHourProposal(final Restaurant restaurant,
                                                                                       final Member member) {
-        BusinessHour beforeBusinessHour = RestaurantFactory.createBusinessHour(
+        BusinessHour beforeBusinessHour = RestaurantFixtures.createBusinessHour(
                 LocalTime.of(9, 0), LocalTime.of(12, 0), false
         );
-        BusinessHour requestedBusinessHour = RestaurantFactory.createBusinessHour(
+        BusinessHour requestedBusinessHour = RestaurantFixtures.createBusinessHour(
                 LocalTime.of(10, 0), LocalTime.of(13, 0), false
         );
 

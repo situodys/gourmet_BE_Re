@@ -3,10 +3,10 @@ package kw.soft.gourmet.domain.proposal.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import kw.soft.gourmet.common.annotation.RepositoryTest;
-import kw.soft.gourmet.common.factory.MemberFixtures;
-import kw.soft.gourmet.common.factory.MenuFactory;
-import kw.soft.gourmet.common.factory.ProposalFactory;
-import kw.soft.gourmet.common.factory.RestaurantFactory;
+import kw.soft.gourmet.common.fixtures.MemberFixtures;
+import kw.soft.gourmet.common.fixtures.MenuFixtures;
+import kw.soft.gourmet.common.fixtures.ProposalFixtures;
+import kw.soft.gourmet.common.fixtures.RestaurantFixtures;
 import kw.soft.gourmet.domain.member.Member;
 import kw.soft.gourmet.domain.member.repository.MemberRepository;
 import kw.soft.gourmet.domain.menu.Menu;
@@ -33,9 +33,9 @@ public class RestaurantNameProposalTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    private Restaurant restaurant = RestaurantFactory.createRestaurant();
+    private Restaurant restaurant = RestaurantFixtures.createRestaurant();
 
-    private Menu menu = MenuFactory.createMenu(restaurant);
+    private Menu menu = MenuFixtures.createMenu(restaurant);
 
     private Member member = MemberFixtures.createMemberWithHighPasswordPolicyBcryptEncoded();
 
@@ -50,7 +50,7 @@ public class RestaurantNameProposalTest {
     @Test
     public void saveRestaurantNameProposal() throws Exception {
         //given
-        RestaurantNameProposal restaurantNameProposal = ProposalFactory.createRestaurantNameProposal(restaurant,
+        RestaurantNameProposal restaurantNameProposal = ProposalFixtures.createRestaurantNameProposal(restaurant,
                 member);
 
         //when
