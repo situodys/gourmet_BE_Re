@@ -1,8 +1,8 @@
 package kw.soft.gourmet.domain.menu.repository;
 
 import kw.soft.gourmet.common.annotation.RepositoryTest;
-import kw.soft.gourmet.common.factory.MenuFactory;
-import kw.soft.gourmet.common.factory.RestaurantFactory;
+import kw.soft.gourmet.common.fixtures.MenuFixtures;
+import kw.soft.gourmet.common.fixtures.RestaurantFixtures;
 import kw.soft.gourmet.domain.menu.Menu;
 import kw.soft.gourmet.domain.restaurant.Restaurant;
 import kw.soft.gourmet.domain.restaurant.repository.RestaurantRepository;
@@ -21,7 +21,7 @@ public class MenuRepositoryTest {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    private Restaurant restaurant = RestaurantFactory.createRestaurant();
+    private Restaurant restaurant = RestaurantFixtures.createRestaurant();
 
     @BeforeEach
     public void setUp() {
@@ -32,7 +32,7 @@ public class MenuRepositoryTest {
     @DisplayName("메뉴를 저장한다.")
     public void saveMenu() throws Exception{
         //given
-        Menu menu = MenuFactory.createMenu(restaurant);
+        Menu menu = MenuFixtures.createMenu(restaurant);
 
         //when
         Menu saved = menuRepository.save(menu);
