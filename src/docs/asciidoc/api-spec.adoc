@@ -11,7 +11,8 @@
 
 [[signup]]
 === 회원 가입
-operation::sign-up-controller-test/sign-up-success[snippets='http-request,http-response,request-fields']
-==== 에러 코드
-operation::sign-up-controller-test/sign-up-fail-by-already-exist-email[snippets='response-body']
-operation::sign-up-controller-test/sign-up-fail-by-empty-field[snippets='response-body']
+operation::sign-up-controller-test/sign-up[snippets='request-fields,http-request,http-response,error-code-types']
+
+[[login]]
+=== 로그인
+operation::login-controller-test/login[snippets='request-fields,http-request,response-fields,http-response,error-code-types']
