@@ -8,7 +8,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MemberFactory {
-    private final MemberGenerator memberGenerator = new MemberGenerator();
+    private final PasswordPolicy passwordPolicy;
+    private final PasswordEncoder passwordEncoder;
+    private final MemberGenerator memberGenerator;
+
+    public MemberFactory(final PasswordPolicy passwordPolicy,
+                         final PasswordEncoder passwordEncoder) {
+        this.passwordPolicy = passwordPolicy;
+        this.passwordEncoder = passwordEncoder;
+        this.memberGenerator= new MemberGenerator();
+    }
 
     public MemberGenerator.MemberBuilder createMemberWithRoleUser() {
         return memberGenerator.generateMemberWithRoleUserBuilder();
@@ -18,8 +27,7 @@ public class MemberFactory {
         return new Email(email);
     }
 
-    public Password createPassword(final String password, final PasswordPolicy passwordPolicy,
-                                   final PasswordEncoder passwordEncoder) {
+    public Password createPassword(final String password) {
         return new Password(password, passwordPolicy, passwordEncoder);
     }
 
