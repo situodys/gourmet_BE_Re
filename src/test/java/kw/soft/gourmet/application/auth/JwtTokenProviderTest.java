@@ -21,22 +21,6 @@ public class JwtTokenProviderTest {
             refreshTokenValidExpirationInMilliSeconds);
 
     @Test
-    @DisplayName("AuthToken을 생성한다.")
-    public void createAuthTokens() throws Exception{
-        //given
-        TokenPayload payload = TokenPayload.from(AuthFixtures.MEMBER_WITH_ID);
-        AuthTokens expect = new AuthTokens(AuthFixtures.ACCESS_TOKEN, AuthFixtures.REFRESH_TOKEN);
-
-        //when
-        AuthTokens result = jwtTokenProvider.createAuthTokens(payload);
-
-        //then
-        assertThat(result)
-                .usingRecursiveComparison()
-                .isEqualTo(expect);
-    }
-
-    @Test
     @DisplayName("accessToken을 생성한다.")
     public void createAccessToken() throws Exception {
         //given
@@ -46,7 +30,7 @@ public class JwtTokenProviderTest {
         AccessToken atk = jwtTokenProvider.createAccessToken(payload);
 
         //then
-        assertThat(atk.value().split("\\.").length).isEqualTo(3);
+        assertThat(atk.value().split("\\.")).hasSize(3);
     }
 
     @Test
@@ -59,6 +43,6 @@ public class JwtTokenProviderTest {
         RefreshToken rtk = jwtTokenProvider.createRefreshToken(payload);
 
         //then
-        assertThat(rtk.value().split("\\.").length).isEqualTo(3);
+        assertThat(rtk.value().split("\\.")).hasSize(3);
     }
 }

@@ -22,9 +22,9 @@ public class AuthFixtures {
     public static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     public static final MemberFactory memberFactory = new MemberFactory(highPasswordPolicy, passwordEncoder);
     public static final TokenProvider jwtTokenProvider = new JwtTokenProvider(
-            "A".repeat(32),
-            36000L,
-            72000L
+            "zxcvzxcvzxcvzxcvzxcvzxcvzxcvzxcv",
+            3600000L,
+            1210000000L
     );
 
     public static final Long MEMBER_ID = 12345L;
