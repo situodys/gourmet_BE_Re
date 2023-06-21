@@ -14,7 +14,7 @@ spring:
         format_sql: true
         database-platform: org.hibernate.dialect.MySQLDialect
 
-secuirty:
+security:
   jwt:
     secret-key: zxcvzxcvzxcvzxcvzxcvzxcvzxcvzxcv
     access-expiration-time: 3600000 #1시간
