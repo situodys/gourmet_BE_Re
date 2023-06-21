@@ -31,6 +31,15 @@ public class MemberRepositoryTest {
         //then
         assertThat(saved.getId()).isNotNull();
     }
+    @Test
+    @DisplayName("이메일로 회원을 확인한다")
+    public void validateExistByEmail() throws Exception{
+        //given
+        Email email = MemberFixtures.createEmail();
+
+        //then
+        memberRepository.validateExistByEmail(email);
+    }
 
     @Test
     @DisplayName("이미 저장된 이메일인 경우 예외를 발생시킨다.")
@@ -46,6 +55,21 @@ public class MemberRepositoryTest {
         assertThatThrownBy(() -> memberRepository.validateExistByEmail(email))
                 .isInstanceOf(MemberException.class)
                 .extracting("code").isEqualTo(Code.ALREADY_EXIST_EMAIL);
+    }
+
+    @Test
+    @DisplayName("이메일로 회원을 찾을 수 있을 때 해당 회원을 반환한다.")
+    public void findByEmailHandleException() throws Exception{
+        //given
+        Member member = MemberFixtures.createMemberWithHighPasswordPolicyBcryptEncoded();
+        Email email = MemberFixtures.createEmail();
+        memberRepository.save(member);
+
+        //when
+        Member saved = memberRepository.findByEmailHandleException(email);
+
+        //then
+        assertThat(saved).isNotNull();
     }
 
     @Test

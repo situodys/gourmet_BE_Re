@@ -71,14 +71,18 @@ public class BusinessSchedule {
     }
 
     private void checkBreakTimeIsInRunTime(final BusinessHour runTime, final BusinessHour breakTime) {
-        if (runTime.isUnset() && !breakTime.isUnset()) {
-            throw new RestaurantException(Code.INVALID_BREAK_TIME);
-        }
+        checkBreakTimeWhenRunTimeIsUnset(runTime, breakTime);
         if (breakTime.isUnset()) {
             return;
         }
         if (!breakTime.isIn(runTime)) {
             throw new RestaurantException(Code.INVALID_BUSINESS_SCHEDULE);
+        }
+    }
+
+    private void checkBreakTimeWhenRunTimeIsUnset(BusinessHour runTime, BusinessHour breakTime) {
+        if (runTime.isUnset() && !breakTime.isUnset()) {
+            throw new RestaurantException(Code.INVALID_BREAK_TIME);
         }
     }
 

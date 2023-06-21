@@ -6,10 +6,7 @@ import kw.soft.gourmet.domain.member.Email;
 import kw.soft.gourmet.domain.member.Member;
 import kw.soft.gourmet.domain.member.exception.Code;
 import kw.soft.gourmet.domain.member.exception.MemberException;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
-import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 
 public interface MemberRepository extends CrudRepository<Member,Long> {
     public boolean existsByEmail(final Email email);

@@ -6,10 +6,12 @@ import jakarta.persistence.Embedded;
 import kw.soft.gourmet.domain.restaurant.exception.Code;
 import kw.soft.gourmet.domain.restaurant.exception.RestaurantException;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Address {
     @Column(name = "address", nullable = false)
     private String address;
@@ -27,17 +29,5 @@ public class Address {
         if (address == null || address.isBlank()) {
             throw new RestaurantException(Code.INVALID_ADDRESS);
         }
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public double getLatitude() {
-        return geoPoint.getLatitude();
-    }
-
-    public double getLongitude() {
-        return geoPoint.getLongitude();
     }
 }
