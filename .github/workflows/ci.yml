@@ -1,14 +1,12 @@
-name: ci
+name: build
 
 on:
   pull_request:
-    branches:
-      - main
-      - dev
-    paths:
-      - ./**
+    branches: ["main", "dev"]
 
   workflow_dispatch:
+
+permissions: write-all
 
 defaults:
   run:
@@ -17,7 +15,6 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: get repo
         uses: actions/checkout@v3
