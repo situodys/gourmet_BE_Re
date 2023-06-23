@@ -1,0 +1,58 @@
+name: sonarqube
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+permissions: write-all
+
+defaults:
+  run:
+    working-directory: .
+
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    env:
+      SONARQUBE_PROJECT_KEY: gourmet_re
+      SONARQUBE_URL: ${{secrets.SONARQUBE_URL}}
+      SONARQUBE_TOKEN: ${{secrets.SONARQUBE_TOKEN}}
+      PR_NUMBER: ${{github.event.pull_request.number}}
+    steps:
+      - name: get repo
+        uses: actions/checkout@v2
+
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: gradlew permission change
+        run: sudo chmod 755 gradlew
+
+      - name: Sonaqube Analysis
+        run: ./gradlew test sonarqube
+          -Dsonar.host.url=${{ env.SONARQUBE_URL }}
+          -Dsonar.projectKey=${{ env.SONARQUBE_PROJECT_KEY }}
+          -Dsonar.projectName=${{ env.SONARQUBE_PROJECT_KEY }}-${{ env.PR_NUMBER }}
+          -Dsonar.login=${{ env.SONARQUBE_TOKEN }}
+
+      - name: Comment Sonarqube URL
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { SONARQUBE_PROJECT_KEY, SONARQUBE_URL, PR_NUMBER } = process.env
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `📊 ${ SONARQUBE_PROJECT_KEY }-${ PR_NUMBER } 분석 결과 확인하기 [링크](${SONARQUBE_URL})`
+            })
+
