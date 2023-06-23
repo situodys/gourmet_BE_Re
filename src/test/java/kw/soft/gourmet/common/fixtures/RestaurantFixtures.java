@@ -1,4 +1,4 @@
-package kw.soft.gourmet.common.factory;
+package kw.soft.gourmet.common.fixtures;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -15,7 +15,7 @@ import kw.soft.gourmet.domain.restaurant.PhoneNumber;
 import kw.soft.gourmet.domain.restaurant.Restaurant;
 import kw.soft.gourmet.domain.restaurant.RestaurantType;
 
-public class RestaurantFactory {
+public class RestaurantFixtures {
     public static Restaurant createRestaurant() {
         return Restaurant.builder()
                 .name(new Name("name"))
@@ -47,6 +47,6 @@ public class RestaurantFactory {
                 .build();
     }
 
-    private RestaurantFactory() {
+    private RestaurantFixtures() {
     }
 }

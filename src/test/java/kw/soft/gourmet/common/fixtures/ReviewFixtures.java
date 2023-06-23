@@ -1,6 +1,5 @@
-package kw.soft.gourmet.common.factory;
+package kw.soft.gourmet.common.fixtures;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -11,7 +10,7 @@ import kw.soft.gourmet.domain.restaurant.Restaurant;
 import kw.soft.gourmet.domain.review.Review;
 import kw.soft.gourmet.domain.review.ReviewedMenus;
 
-public class ReviewFactory {
+public class ReviewFixtures {
 
     public static Review createReview(final Restaurant restaurant, final Member member, final Set<Menu> menus) {
         return Review.builder()
@@ -38,6 +37,6 @@ public class ReviewFactory {
         return new ReviewedMenus(reviewedMenus);
     }
 
-    private ReviewFactory() {
+    private ReviewFixtures() {
     }
 }

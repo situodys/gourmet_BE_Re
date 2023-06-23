@@ -1,0 +1,18 @@
+= Api Specs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs // 문서에 표기되는 코드들의 하이라이팅을 highlightjs를 사용
+:toc: left // toc (Table Of Contents)를 문서의 좌측에 두기
+:toclevels: 2
+:sectlinks:
+
+[[Auth-Api]]
+== Auth-Api
+
+[[signup]]
+=== 회원 가입
+operation::sign-up-controller-test/sign-up[snippets='request-fields,http-request,http-response,error-code-types']
+
+[[login]]
+=== 로그인
+operation::login-controller-test/login[snippets='request-fields,http-request,response-fields,http-response,error-code-types']

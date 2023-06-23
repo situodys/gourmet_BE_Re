@@ -1,10 +1,10 @@
-package kw.soft.gourmet.common.factory;
+package kw.soft.gourmet.common.fixtures;
 
 import kw.soft.gourmet.domain.menu.Menu;
 import kw.soft.gourmet.domain.menu.MenuCategory;
 import kw.soft.gourmet.domain.restaurant.Restaurant;
 
-public class MenuFactory {
+public class MenuFixtures {
     public static Menu createMenu(final Restaurant restaurant) {
         return Menu.builder()
                 .name("menu")
@@ -16,6 +16,6 @@ public class MenuFactory {
                 .build();
     }
 
-    private MenuFactory() {
+    private MenuFixtures() {
     }
 }

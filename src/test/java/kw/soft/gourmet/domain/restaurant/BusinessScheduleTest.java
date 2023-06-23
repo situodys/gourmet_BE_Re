@@ -41,6 +41,37 @@ class BusinessScheduleTest {
                 .isInstanceOf(RestaurantException.class)
                 .extracting("code").isEqualTo(Code.INVALID_START_OF_RUNTIME);
     }
+    
+    @Test
+    @DisplayName("영업 시간이 설정되지 않고 휴게 시간만 설정된 경우 예외를 반환한다.")
+    public void throwExceptionWhenInvalidBreakTime() throws Exception{
+        //given
+        BusinessHour runTime = BusinessHour.UNSET;
+        BusinessHour breakTime = createTodayBusinessHour(1, 0, 2, 0,true);
+
+        //then
+        Assertions.assertThatThrownBy(() -> {
+                    new BusinessSchedule(DEFAULT_DAY, runTime, breakTime);
+                })
+                .isInstanceOf(RestaurantException.class)
+                .extracting("code").isEqualTo(Code.INVALID_BREAK_TIME);
+    }
+
+    @Test
+    @DisplayName("휴무인 경우 정상적으로 영업 상태 CLOSE를 반환한다.")
+    public void calculateBusinessStatusWhenDayOff() throws Exception{
+        //given
+        BusinessHour runTime = BusinessHour.UNSET;
+        BusinessHour breakTime = BusinessHour.UNSET;
+        LocalTime time = LocalTime.of(1, 0);
+        BusinessSchedule businessSchedule = new BusinessSchedule(DEFAULT_DAY, runTime, breakTime);
+
+        //when
+        BusinessStatus result = businessSchedule.calculateBusinessStatus(time);
+
+        //then
+        Assertions.assertThat(result).isEqualTo(BusinessStatus.CLOSE);
+    }
 
     @ParameterizedTest
     @MethodSource({"provideRunTimeAndBreakTimeWhenBothEndToday", "provideRunTimeAndBreakTimeWhenBothEndTomorrow"})

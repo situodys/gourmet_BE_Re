@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @EqualsAndHashCode
 public class Email {
-    private static final String EMAIL_REGEX = "^[0-9a-zA-Z+_.-]+(@kw.ac.kr)|(gmail.com)";
+    private static final String EMAIL_REGEX = "^[0-9a-zA-Z+_.-]+((@kw.ac.kr)|(@gmail.com))";
     private static final Pattern pattern = Pattern.compile(EMAIL_REGEX);
 
     @Column(name = "email", nullable = false, unique = true)
     private String value;
 
-    public Email(final String value) {
+    Email(final String value) {
         checkValidEmail(value);
         this.value = value;
     }

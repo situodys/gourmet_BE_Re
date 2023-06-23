@@ -1,12 +1,13 @@
 package kw.soft.gourmet.domain.restaurant.exception;
 
+import kw.soft.gourmet.exception.ErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
 @Getter
-public enum Code {
+public enum Code implements ErrorCode {
     INVALID_NAME_LENGTH(1001, "음식점 이름의 길이는 50자 이내 입니다.", HttpStatus.BAD_REQUEST),
     EMPTY_NAME(1002, "음식점 이름이 비어있습니다.", HttpStatus.BAD_REQUEST),
     INVALID_DESCRIPTION_LENGTH(1003, "음식점 설명은 500자 이내 입니다.", HttpStatus.BAD_REQUEST),

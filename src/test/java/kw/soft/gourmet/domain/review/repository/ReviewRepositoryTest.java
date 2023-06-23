@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Set;
 import kw.soft.gourmet.common.annotation.RepositoryTest;
-import kw.soft.gourmet.common.factory.MemberFactory;
-import kw.soft.gourmet.common.factory.MenuFactory;
-import kw.soft.gourmet.common.factory.RestaurantFactory;
-import kw.soft.gourmet.common.factory.ReviewFactory;
+import kw.soft.gourmet.common.fixtures.MemberFixtures;
+import kw.soft.gourmet.common.fixtures.MenuFixtures;
+import kw.soft.gourmet.common.fixtures.RestaurantFixtures;
+import kw.soft.gourmet.common.fixtures.ReviewFixtures;
 import kw.soft.gourmet.domain.member.Member;
 import kw.soft.gourmet.domain.member.repository.MemberRepository;
 import kw.soft.gourmet.domain.menu.Menu;
@@ -19,10 +19,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
 
 @RepositoryTest
 public class ReviewRepositoryTest {
@@ -39,11 +35,11 @@ public class ReviewRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    private Restaurant restaurant = RestaurantFactory.createRestaurant();
+    private Restaurant restaurant = RestaurantFixtures.createRestaurant();
 
-    private Menu menu = MenuFactory.createMenu(restaurant);
+    private Menu menu = MenuFixtures.createMenu(restaurant);
 
-    private Member member = MemberFactory.createMemberWithHighPasswordPolicy();
+    private Member member = MemberFixtures.createMemberWithHighPasswordPolicyBcryptEncoded();
 
     @BeforeEach
     public void setUp() {
@@ -56,7 +52,7 @@ public class ReviewRepositoryTest {
     @DisplayName("리뷰를 저장한다.")
     public void saveReview() throws Exception {
         //given
-        Review review = ReviewFactory.createReview(restaurant, member, Set.of(menu));
+        Review review = ReviewFixtures.createReview(restaurant, member, Set.of(menu));
 
         //when
         Review saved = reviewRepository.save(review);
