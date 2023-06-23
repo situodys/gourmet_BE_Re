@@ -608,6 +608,35 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
+<h4 id="login_response_fields"><a class="link" href="#login_response_fields">Response fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>atk.value</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">액세스 토큰</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rtk.value</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리프레쉬 토큰</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
 <h4 id="login_http_response"><a class="link" href="#login_http_response">HTTP response</a></h4>
 <div class="listingblock">
 <div class="content">
@@ -617,10 +646,10 @@ Content-Length: 415
 
 {
   "atk" : {
-    "value" : "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAa3cuYWMua3IiLCJhdXRob3JpdHkiOiJVU0VSIiwiaWF0IjoxNjg3MDE3MzgxLCJleHAiOjE2ODcwMTc0MTd9.xFfQBUhNDch0db2vBo8f8ft53cculOlrypVuKe6xxqU"
+    "value" : "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAa3cuYWMua3IiLCJhdXRob3JpdHkiOiJVU0VSIiwiaWF0IjoxNjg3NTAyMzU1LCJleHAiOjE2ODc1MDU5NTV9.JrMuKfh4dBNVp4ARQmJKYuNeJo4Daejz6M1TTddF-KM"
   },
   "rtk" : {
-    "value" : "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAa3cuYWMua3IiLCJhdXRob3JpdHkiOiJVU0VSIiwiaWF0IjoxNjg3MDE3MzgxLCJleHAiOjE2ODcwMTc0NTN9.g2AGk5a0gNJzniV-oeHkNw1DyLKDGbstRMh2KYed_V8"
+    "value" : "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAa3cuYWMua3IiLCJhdXRob3JpdHkiOiJVU0VSIiwiaWF0IjoxNjg3NTAyMzU1LCJleHAiOjE2ODg3MTIzNTV9.-WjRYP-iT1NZaHhGqFqGvSBnx0K1H0JYsOZCPiaeffM"
   }
 }</code></pre>
 </div>
@@ -662,7 +691,7 @@ Content-Length: 415
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-06-17 02:33:49 +0900
+Last updated 2023-06-22 14:20:42 +0900
 </div>
 </div>
 </body>
